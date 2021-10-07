@@ -24,11 +24,14 @@ jobs:
       acr_url: ${{ steps.tfout.outputs.acr_url }}
       
     steps:
+    # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
 
     - uses: hashicorp/setup-terraform@v1
-      
+      with:
+        terraform_wrapper: false
+
     - run: terraform init
     
     - name: Terraform fmt
@@ -38,4 +41,4 @@ jobs:
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color
+      run: terraform plan -no-color -out=terraform.tfplan
