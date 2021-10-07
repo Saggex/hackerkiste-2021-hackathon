@@ -26,7 +26,7 @@ variable "uniquename"{
 
 # locals block
 locals {
-  name     = var.uniquename
+  name     = "itswaytool8"
   location = "West Europe"
 }
 
