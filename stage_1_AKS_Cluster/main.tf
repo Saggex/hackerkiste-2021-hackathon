@@ -1,10 +1,12 @@
 terraform {
-    required_providers {
+  required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "=2.46.0"
     }
   }
+
+  # backend configuration block
   backend "azurerm" {
     resource_group_name  = "meta"
     storage_account_name = "hackathonterraform"
@@ -13,9 +15,18 @@ terraform {
   }
 }
 
+provider "azurerm" {
+  features {}
+}
+
+variable "uniquename"{
+  type = string
+  description = "Name for the ResourceGroup and AKS Cluster"
+}
+
 # locals block
 locals {
-  name     = "averyuniquename"
+  name     = var.uniquename
   location = "West Europe"
 }
 
@@ -37,6 +48,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     node_count = 2
     vm_size    = "Standard_D2s_v3"
   }
+
 
   identity {
     type = "SystemAssigned"
