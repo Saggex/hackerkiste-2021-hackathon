@@ -1,3 +1,4 @@
+# Configure the Azure Provider
 terraform {
   required_providers {
     azurerm = {
@@ -26,7 +27,7 @@ variable "uniquename"{
 
 # locals block
 locals {
-  name     = "itswaytool8"
+  name     = "waytool8"
   location = "West Europe"
 }
 
@@ -66,4 +67,20 @@ resource "azurerm_role_assignment" "acr" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity.0.object_id
+}
+
+#outputs
+output "resource_group_name" {
+  value = azurerm_resource_group.global.name
+}
+
+output "aks_name" {
+  value = azurerm_kubernetes_cluster.aks.name
+}
+
+output "acr_name" {
+  value = data.azurerm_container_registry.acr.name
+}
+output "acr_url" {
+  value = data.azurerm_container_registry.acr.login_server
 }
